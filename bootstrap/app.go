@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"context"
 
+	"github.com/neerubhandari/restaurant-management/infrastructure"
 	"go.uber.org/fx"
 )
 
@@ -18,7 +19,7 @@ func WebApp() {
 	app.Run()
 }
 
-func startWebServer(lifecycle fx.Lifecycle) {
+func startWebServer(lifecycle fx.Lifecycle, server infrastructure.Router) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {

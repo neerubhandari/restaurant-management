@@ -1,40 +1,29 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
-
-	"github.com/gin-gonic/gin"
-
-	"github.com/neerubhandari/restaurant-management/database"
-	"github.com/neerubhandari/restaurant-management/models"
-
-	// "github.com/neerubhandari/restaurant-management/middleware"
-	"github.com/neerubhandari/restaurant-management/routes"
+	"github.com/neerubhandari/restaurant-management/bootstrap"
+	"github.com/neerubhandari/restaurant-management/utils"
 )
 
 func main() {
 
-	database.Connect()
-	if err := database.DB.AutoMigrate(&models.Menu{}); err != nil {
-		log.Fatalf("Error during migration: %v", err)
-	}
+	// database.Connect()
+	// if err := database.DB.AutoMigrate(&models.Menu{}); err != nil {
+	// 	log.Fatalf("Error during migration: %v", err)
+	// }
+	utils.LoadEnv()
+	bootstrap.WebApp()
+	// fmt.Println("Migration successful!")
 
-	fmt.Println("Migration successful!")
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000"
-	}
-	router := gin.Default()
-	router.Use(gin.Logger())
+	// router := gin.Default()
+	// router.Use(gin.Logger())
 	// routes.UserRoutes(router)
 	// router.Use(middleware.Authentication())
-	routes.FoodRoutes(router)
-	routes.MenuRoutes(router)
+	// routes.FoodRoutes(router)
+	// routes.MenuRoutes(router)
 	// routes.TableRoutes(router)
 	// routes.OrderRoutes(router)
 	// routes.OrderItemsRoutes(router)
 	// routes.InvoiceRoutes(router)
-	router.Run(":" + port)
+
 }

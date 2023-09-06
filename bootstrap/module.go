@@ -1,5 +1,10 @@
 package bootstrap
 
-import "go.uber.org/fx"
+import (
+	"github.com/neerubhandari/restaurant-management/infrastructure"
+	"go.uber.org/fx"
+)
 
-var CommonModules = fx.Options()
+var CommonModules = fx.Options(
+	infrastructure.Module,
+)
