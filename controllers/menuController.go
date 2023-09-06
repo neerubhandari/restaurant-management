@@ -65,14 +65,16 @@ func CreateMenu() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
 			return
 		}
+		if db != nil {
+			result := db.Debug().Create(&menu)
+			if result.Error != nil {
 
-		result := db.Create(&menu)
-		if result.Error != nil {
-			msg := "Menu was not created"
-			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
-			return
+				c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, result)
 		}
-		c.JSON(http.StatusOK, result)
+
 	}
 }
 
