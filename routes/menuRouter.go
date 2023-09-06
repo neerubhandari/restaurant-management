@@ -1,13 +1,29 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/neerubhandari/restaurant-management/controllers"
+	"github.com/neerubhandari/restaurant-management/infrastructure"
 )
 
-func MenuRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.GET("/menus", controllers.GetMenus())
-	incomingRoutes.GET("/menus/:menu_id", controllers.GetMenu())
-	incomingRoutes.POST("/menus", controllers.CreateMenu())
-	incomingRoutes.PATCH("/menus/:menu_id", controllers.UpdateMenu())
+type MenuForRoutes struct {
+	handler        infrastructure.Router
+	menuController *controllers.MenuController
+}
+
+func NewMenuForRoutes(
+	handler infrastructure.Router,
+	menuController *controllers.MenuController,
+) *MenuForRoutes {
+	return &MenuForRoutes{
+		handler:        handler,
+		menuController: menuController,
+	}
+}
+
+func (mr *MenuForRoutes) Setup() {
+	api := mr.handler.Group("/menus")
+	api.GET("", mr.menuController.GetMenus)
+	api.GET("/:menu_id", mr.menuController.GetMenu)
+	api.POST("", mr.menuController.CreateMenu)
+	api.PATCH("/:menu_id", mr.menuController.UpdateMenu)
 }
