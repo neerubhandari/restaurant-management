@@ -17,10 +17,9 @@ func NewRouter() Router {
 }
 
 func (r *Router) RunServer() {
-	router := gin.Default()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	router.Run(":" + port)
+	r.Run(":" + port)
 }
