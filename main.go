@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
+
 	"github.com/neerubhandari/restaurant-management/database"
 	"github.com/neerubhandari/restaurant-management/models"
 
@@ -16,10 +16,6 @@ import (
 
 func main() {
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
 	database.Connect()
 	if err := database.DB.AutoMigrate(&models.Menu{}); err != nil {
 		log.Fatalf("Error during migration: %v", err)
